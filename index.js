@@ -1,8 +1,25 @@
-const Koa = require('koa');
-const app = new Koa();
+const PORT = 8080;
 
-app.use(async ctx => {
-  ctx.body = 'Hello World';
+const Koa = require('koa');
+var Router = require('koa-router');
+
+const app = new Koa();
+var router = new Router();
+
+router.get('/', (ctx, next) => {
+  ctx.body = "Welcome"
 });
 
-app.listen(8080);
+router
+  .get('/about', (ctx, next) => {
+    ctx.body = "We are team irisind. To know more, go to contact page"
+  })
+  .get('/contact', (ctx, next) => {
+    ctx.body = "Contact us at info@irisind.com"
+  });
+
+app
+  .use(router.routes())
+  .use(router.allowedMethods());
+
+app.listen(PORT, ()=> console.log(`Server running on port ${PORT}`));
