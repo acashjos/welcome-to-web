@@ -4,7 +4,7 @@ const Koa = require('koa');
 var Router = require('koa-router');
 
 const app = new Koa();
-var router = new Router();
+const router = new Router();
 
 router.get('/', (ctx, next) => {
   ctx.body = "Welcome"
