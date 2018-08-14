@@ -1,31 +1,11 @@
 const Router = require('koa-router');
 const router = new Router();
 
-router.get('/', async (ctx, next) => {
-
-  const payload = {
-    title: 'Welcome',
-    user: 'John',
-    serverName: "Akash's computer"
-  };
-
-  await ctx.render('welcome', payload);
-});
+const Views = require('./controllers/viewControllers');
 
 router
-  .get('/about', async (ctx, next) => {
-
-    const payload = {
-      companyName: "Irisind"
-    };
-    await ctx.render('about', payload);
-  })
-  .get('/contact', async (ctx, next) => {
-
-    const payload = {
-      companyName: "Irisind"
-    };
-    await ctx.render('contact', payload);
-  })
+  .get('/', Views.welcome)
+  .get('/about', Views.about)
+  .get('/contact', Views.contact);
 
 module.exports = router;
