@@ -13,11 +13,19 @@ router.get('/', async (ctx, next) => {
 });
 
 router
-  .get('/about', (ctx, next) => {
-    ctx.body = "We are team irisind. To know more, go to contact page"
+  .get('/about', async (ctx, next) => {
+
+    const payload = {
+      companyName: "Irisind"
+    };
+    await ctx.render('about', payload);
   })
-  .get('/contact', (ctx, next) => {
-    ctx.body = "Contact us at info@irisind.com"
-  });
+  .get('/contact', async (ctx, next) => {
+
+    const payload = {
+      companyName: "Irisind"
+    };
+    await ctx.render('contact', payload);
+  })
 
 module.exports = router;
