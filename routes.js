@@ -1,8 +1,15 @@
 const Router = require('koa-router');
 const router = new Router();
 
-router.get('/', (ctx, next) => {
-  ctx.body = "Welcome"
+router.get('/', async (ctx, next) => {
+
+  const payload = {
+    title: 'Welcome',
+    user: 'John',
+    serverName: "Akash's computer"
+  };
+
+  await ctx.render('welcome', payload);
 });
 
 router
@@ -13,4 +20,4 @@ router
     ctx.body = "Contact us at info@irisind.com"
   });
 
-  module.exports = router;
+module.exports = router;
