@@ -5,6 +5,25 @@ const Koa = require('koa');
 const app = new Koa();
 const router = require('./routes'); // requires router config from ./routes.js
 
+const mysql = require('mysql');
+// const mysqlConfig = 'mysql://irisind:qwertyui@localhost:3306/tutorial';
+const mysqlConfig = {
+  host: 'localhost',
+  user: 'irisind',
+  password: 'qwertyui',
+  database: 'tutorial'
+};
+const connection = mysql.createConnection(mysqlConfig);
+
+connection.connect();
+
+connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
+  if (error) throw error;
+  console.log('The solution is: ', results[0].solution);
+});
+
+connection.end();
+
 const views = require('koa-views');
 
 // Must be used before any router is used
