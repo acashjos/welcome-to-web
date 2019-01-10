@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <title>
+        <%= firstName +' '+ lastName %>
+    </title>
+</head>
+
+<body>
+    <h1>Welcome <%= firstName +' '+ lastName %>
+    </h1>
+    <p><a href='/signout'>Log out </a></p>
+    <form method="POST" target='/profile'>
+        <input type="text" name="firstName" value="<%= firstName %>" placeholder="firstName" /><br />
+        <input type="text" name="lastName" value="<%= lastName %>" placeholder="lastName" /><br />
+        <input type="email" name="email" value="<%= email %>" placeholder="Email" /><br />
+        <input type="password" name="oldpassword" placeholder="Old password" /><br />
+        <input type="password" name="password" placeholder="New password" /><br />
+        <input type="password" name="repassword" placeholder="Repeat password" /><br />
+        <input type="submit" value="Update">
+    </form>
+</body>
+
+</html>

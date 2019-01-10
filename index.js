@@ -3,8 +3,16 @@ const PORT = 8080;
 const Koa = require('koa');
 
 const app = new Koa();
-const router = require('./routes'); // requires router config from ./routes.js
+const koaBody = require('koa-body');
 
+app.use(koaBody());
+
+const session = require('koa-session');
+
+app.keys = ['some secret hurr'];
+app.use(session(app));
+
+const router = require('./routes'); // requires router config from ./routes.js
 
 const views = require('koa-views');
 
@@ -24,4 +32,7 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+(async () => {
+  await (require('./models').init)();
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+})();

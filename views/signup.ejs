@@ -1,0 +1,24 @@
+<html>
+
+<head>
+    <title>
+        Register new user
+    </title>
+</head>
+
+<body>
+    <h1>Register new user
+    </h1>
+    <form method="POST">
+        <input type="text" name="firstName" placeholder="firstName"/><br/>
+        <input type="text" name="lastName" placeholder="lastName"/><br/>
+        <input type="password" name="password" placeholder="Password"/><br/>
+        <input type="password" name="repassword" placeholder="Repeat Password"/><br/>
+        <input type="email" name="email" placeholder="Email"/><br/>
+        <input type="submit" value="Register">
+    </form>
+    
+    <%= errorMsg %>
+</body>
+
+</html>
