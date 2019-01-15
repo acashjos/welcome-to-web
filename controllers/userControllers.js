@@ -1,22 +1,19 @@
 
 const Models = require('../models').Models;
-const Views = require('./viewControllers');
+// const Views = require('./viewControllers');
 const Utils = require('../utils.js');
 
-exports.login = async (ctx, next) => {
+exports.login = async (email, password) => {
 
-
-    let email = ctx.request.body.email;
-    let password = ctx.request.body.password;
 
     let user = await Models.User.findOne({ where: { email } });
     if (user) {
         let password_match = await Utils.comparePassword(password, user.password);
         if (password_match) {
             ctx.session.user = JSON.parse(JSON.stringify(user));
-            ctx.redirect('/profile');
+
             console.log('loggedin');
-        } else return await ctx.render('login', { errorMsg: "Email or password doesn't match" });
+        } else throw "Email or password doesn't match";
 
     }
 
@@ -33,7 +30,7 @@ exports.signup = async (ctx, next) => {
     let password = ctx.request.body.password;
 
     if (ctx.request.body.repassword != password)
-        return await Views.signupWithError(ctx, next, { errorMsg: "Password didn't match" });
+        throw "Password didn't match";
 
     // need a detailed lecture on Promises?
     let hashedPass = await Utils.hashPassword(password);
@@ -50,14 +47,13 @@ exports.signup = async (ctx, next) => {
     });
 
     if (created === false)
-        await ctx.render('signup', { errorMsg: 'User with that email id already exists' });
-    else await ctx.render('welcome_new_user', { name: firstName });
-    console.log(ctx.request.body);
+        throw 'User with that email id already exists';
+    else return user;
+
 }
 
 exports.signout = async (ctx, next) => {
     delete ctx.session.user;
-    return ctx.redirect('/login');
 }
 
 exports.update = async (ctx, next) => {
@@ -88,7 +84,6 @@ exports.update = async (ctx, next) => {
         ctx.session.user = JSON.parse(JSON.stringify(user));
 
     } catch (e) {
-        errorMsg = "Something went wrong. Please check the values you submitted"
+        throw "Something went wrong. Please check the values you submitted"
     }
-    await ctx.render('profile', { ...ctx.session.user, errorMsg });
 }
