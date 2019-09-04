@@ -71,3 +71,10 @@ typings/
 
 # Serverless directories
 .serverless
+
+# generated files
+public/*.js
+public/*.map
+
+# anything with a '!' before file extension 
+*!.*

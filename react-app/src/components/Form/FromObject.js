@@ -8,7 +8,6 @@ export default class FormObject {
 	static collectValues(form) {
 		const inputs = form.elements
 		let data = {}
-
 		for (let i = 0; inputs[i] !== undefined; i++)
 			if (inputs[i].nodeName !== "BUTTON")
 				data[inputs[i].name] = inputs[i].value

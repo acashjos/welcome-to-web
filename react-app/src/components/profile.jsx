@@ -1,40 +1,41 @@
 
 import React from "react";
+import Form, { EditableText } from "./Form/Form.jsx";
 
-export default class Profile extends React.Component {
+export default class Login extends React.Component {
 
-    Profile(props) {
-        this.setState(Object.assign({}, props.user));
-    }
 
-    handleChange(event, attribute) {
-        this.setState9({ [attribute]: event.target.value });
-    }
+    constructor(props, context) {
+        super(props, context);
+        this.state = {};
+        // this.state = {error: "sample error"};
+        this.onSubmit = this.onSubmit.bind(this);
+    };
 
-    saveChanges() {
-        if(this.state.password){
-            let error;
-            if(this.state.password != this.state.repassword ) error = "retyped passwords does not match";
-            else if(!this.state.oldpassword) error = "Please type in the old password";
-            if(error) {
-                return alert(error);
-            }
+    async onSubmit(response) {
+        let error = ""
+        if (!response) error = "Something went wrong while submitting. Please try again";
+        else if (!response.ok) error = await response.json();
+        else {
+            this.props.refreshSession();
+            alert("Updated !!");
         }
+        this.setState({ error: error && error.errorMsg })
 
-        // save 
     }
 
     render() {
-        return <div>
-            <h1>Welcome {this.state.firstName + ' ' + this.state.lastName} </h1>
-            <p><a onClick={this.logout}>Log out </a></p>
-            <input type="text" name="firstName" value={this.state.firstName} placeholder="firstName" onChange={this.handleChange.bind(this, 'firstName')} /><br />
-            <input type="text" name="lastName" value={this.state.lastName} placeholder="lastName" onChange={this.handleChange.bind(this, 'lastName')} /><br />
-            <input type="email" name="email" value={this.state.email} placeholder="Email" onChange={this.handleChange.bind(this, 'email')} /><br />
-            <input type="password" name="oldpassword" placeholder="Old password" value={this.state.oldpassword} onChange={this.handleChange.bind(this, 'oldpassword')} /><br />
-            <input type="password" name="password" placeholder="New password" value={this.state.password} onChange={this.handleChange.bind(this, 'password')} /><br />
-            <input type="password" name="repassword" placeholder="Repeat password" value={this.state.repassword} onChange={this.handleChange.bind(this, 'repassword')} /><br />
-            <button onClick={this.saveChanges}>Save</button>
-        </div>;
+        return <Form method="POST" onResponse={this.onSubmit} action="/api/profile">
+            First Name: <EditableText type="text" name="firstName" placeholder="firstName" value={this.props.user.firstName} /><br />
+            Last Name: <EditableText type="text" name="lastName" placeholder="lastName" value={this.props.user.lastName} /><br />
+            Email: <EditableText type="email" name="email" placeholder="Email" value={this.props.user.email} /><br />
+            <input type="password" name="oldpassword" placeholder="Old password" /><br />
+            <input type="password" name="password" placeholder="New password" /><br />
+            <input type="password" name="repassword" placeholder="Repeat password" /><br />
+            <br />
+            <b>{this.state.error}</b>
+            <br />
+            <input type="submit" value="Save" />
+        </Form>
     }
 }
