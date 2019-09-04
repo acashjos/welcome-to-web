@@ -26,19 +26,45 @@ exports.contact = async (ctx, next) => {
     await ctx.render('contact', payload);
 };
 
+exports.loginPage = async (ctx, next) => {
+    await ctx.render('login', { errorMsg: '' });
+};
 exports.login = async (ctx, next) => {
-    await ctx.render('login', {errorMsg:''});
+    try {
+        await UserController.login(ctx);
+        ctx.redirect('/profile');
+
+    } catch (errorMsg) {
+
+        await ctx.render('login', { errorMsg });
+    };
 };
 
+
+exports.signupPage = async (ctx, next) => {
+    await ctx.render('signup', { errorMsg: '' });
+};
 
 exports.signup = async (ctx, next) => {
-    await ctx.render('signup',{errorMsg:''});
+    try {
+        let user = await UserController.signup(ctx);
+        await ctx.render('welcome_new_user', { name: user.firstName });
+    } catch (errorMsg) {
+        await ctx.render('signup', { errorMsg });
+    };
 };
 
-exports.signupWithError = async (ctx, next, payload) => {
-    await ctx.render('signup', payload);
-}
 
 exports.profile = async (ctx, next) => {
-    await ctx.render('profile', {...ctx.session.user, errorMsg: "" });
+    await ctx.render('profile', { ...ctx.session.user, errorMsg: "" });
+}
+
+exports.updateProfile = async (ctx, next) => {
+    try {
+        await UserController.update(ctx);
+        await ctx.render('profile', { ...ctx.session.user, errorMsg: '' });
+
+    } catch (errorMsg) {
+        await ctx.render('profile', { ...ctx.session.user, errorMsg });
+    }
 }

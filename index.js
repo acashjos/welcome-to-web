@@ -4,7 +4,8 @@ const Koa = require('koa');
 
 const app = new Koa();
 const koaBody = require('koa-body');
-
+const serve = require('koa-static');
+app.use(serve('public'));
 app.use(koaBody());
 
 const session = require('koa-session');
