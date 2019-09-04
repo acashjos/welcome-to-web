@@ -1,0 +1,17 @@
+Hey,
+I've been thinking about it through this week and here are my proposals.
+Here I am assuming the students have basic idea of how web apps work or a CS background, know SQL, or any programming language.
+Without any of these, its impossible to teach all up to react in 10 weeks.
+To have a complete project, the student need to get an idea about a backend server, a database and a front-end app.
+We can go with  nodeJS + Koa + MySQL/MongoDB for the backend and cover just basics and whatever is necessary for the project completion.
+I'd recommend MySQL for DB since at least the CS students will be familiar with the basics of queries. With mongo we'll have to start from zero.
+
+The entire program would look something like this.
+week 1 -> Basics concepts like server-client model, HTTP, REST, How web-pages and browsers work, What is Javascript, JSON, node so on.
+week 2 -> Koa basics, Database basics, make it work with node, create a simple REST server that read and write data.
+week 3 -> Getting deep into things like project structure, project dependencies, npm modules, package.json, common modules and tools used in projects
+week 4 -> put together all of these, create a proper web server with different routes and commonly used features
+week 5 to 8 -> front end stuff, getting to speed with react + redux
+week 9,10 -> put together a simple app using all of these. This could be a shopping cart or messaging app or twitter clone something like that.
+
+These are all little vague at this point.
